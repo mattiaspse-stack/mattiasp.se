@@ -1,0 +1,478 @@
+/* ============================================================
+   mattiasp.se — one page (hero only)
+   Färger och typografi hämtade från referensen:
+   ink #1a1a1a · dim rgba(26,26,26,.4) · border rgba(31,31,31,.1)
+   ============================================================ */
+
+:root{
+  --ink:#1a1a1a;
+  --dim:rgba(26,26,26,.4);
+  --dim-2:rgba(26,26,26,.55);
+  --bg-hero:#ececea;
+  --pad:clamp(16px,3.2vw,48px);
+  --font:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+*{box-sizing:border-box}
+html{height:100%}
+body{
+  margin:0;height:100%;
+  background:var(--bg-hero);color:var(--ink);
+  font-family:var(--font);font-optical-sizing:auto;
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+a{color:inherit;text-decoration:none}
+p{margin:0}
+img{display:block;max-width:100%}
+/* Herorubriken är <h1> på startsidan och <p> på undersidorna — där äger
+   kortets rubrik h1:an. Stilen sitter därför på klassen, inte på taggen. */
+.hero-title{margin:0;font-weight:500;letter-spacing:-.045em;line-height:1}
+.dim{color:var(--dim)}
+
+/* mjuk övergång mellan sidorna där webbläsaren stödjer det (Chrome, Edge, Safari).
+   Firefox hoppar direkt, vilket ser ut som ett vanligt sidbyte. */
+@view-transition{navigation:auto}
+
+/* ===================== NAV ===================== */
+/* Menyn ligger över kortet — annars täcker kortets scrim länkarna och man
+   måste gå via startsidan för att komma vidare. */
+.nav{
+  position:fixed;top:12px;left:var(--pad);right:var(--pad);z-index:300;
+  display:flex;align-items:center;gap:14px;
+}
+
+.logo{display:flex;align-items:center;gap:3px;flex:0 0 auto}
+.logo img{height:20px;width:auto}
+/* samma prompt som i faviconen: ordbilden, ett > och en blinkande markör */
+.prompt{
+  width:9px;height:17px;margin-left:7px;flex:0 0 auto;
+  fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;
+}
+/* blinkande markör direkt efter prompten, som en terminal */
+.caret{
+  width:8px;height:19px;background:var(--ink);border-radius:1px;
+  animation:caret-blink 1.1s steps(1,end) infinite;
+}
+@keyframes caret-blink{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+
+/* Menyn är naken — ingen platta. Frostat glas kräver något att sudda,
+   och överst på sidan ligger bara en platt yta. All kontrast samlas
+   i stället i den svarta knappen till höger. */
+.nav-pill{display:flex;align-items:center;gap:2px}
+.nav-pill a{font-size:14px;color:var(--dim-2);padding:8px 14px;border-radius:99px;transition:color .25s}
+.nav-pill a:hover,.nav-pill a[aria-current="page"]{color:var(--ink)}
+
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+
+/* På innehållssidorna ligger menyn ovanpå den mörka scrimen och måste
+   vändas till ljus för att gå att läsa. Den utfällda mobilpanelen har egen
+   ljus yta och behåller därför sin mörka text — se mediafrågan längre ner. */
+body:has(.modal--page) .logo img{filter:brightness(0) invert(1)}
+body:has(.modal--page) .prompt{stroke:#fff}
+body:has(.modal--page) .caret{background:#fff}
+body:has(.modal--page) .burger span{background:#fff}
+body:has(.modal--page) .sound-bars i{background:#fff}
+@media (min-width:861px){
+  body:has(.modal--page) .nav-pill a{color:rgba(255,255,255,.7)}
+  body:has(.modal--page) .nav-pill a:hover,
+  body:has(.modal--page) .nav-pill a[aria-current="page"]{color:#fff}
+}
+
+/* synligt tangentbordsfokus */
+.nav-pill a:focus-visible,.burger:focus-visible,.logo:focus-visible,
+.btn-dark:focus-visible,.modal-x:focus-visible,.case-back:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:99px}
+/* Texten pekar ut knappen så länge det är tyst. När musiken väl spelar har
+   den gjort sitt och tonas bort — då talar de rörliga strecken för sig själva. */
+.sound-hint{
+  font-family:var(--mono);font-size:11px;color:var(--dim);
+  white-space:nowrap;transition:opacity .35s;
+}
+.nav-right:has(.sound[aria-pressed="true"]) .sound-hint{opacity:0}
+body:has(.modal--page) .sound-hint{color:rgba(255,255,255,.62)}
+
+/* ljudknapp — tre streck som står stilla när det är tyst och rör sig när det spelar */
+.sound{width:30px;height:34px;border:0;background:none;cursor:pointer;padding:0;display:grid;place-items:center}
+.sound-bars{display:flex;align-items:center;gap:2.5px;height:14px}
+.sound-bars i{width:1.5px;height:4px;background:var(--ink);border-radius:1px;transition:height .3s}
+.sound:hover .sound-bars i{height:7px}
+.sound[aria-pressed="true"] .sound-bars i{animation:eq 1.3s ease-in-out infinite}
+.sound[aria-pressed="true"] .sound-bars i:nth-child(2){animation-delay:.22s}
+.sound[aria-pressed="true"] .sound-bars i:nth-child(3){animation-delay:.44s}
+@keyframes eq{0%,100%{height:3px}50%{height:14px}}
+.sound:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:99px}
+
+.burger{display:none;width:34px;height:34px;border:0;background:none;cursor:pointer;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0}
+.burger span{width:16px;height:1.5px;background:var(--ink);transition:.3s}
+.burger[aria-expanded="true"] span:first-child{transform:translateY(3.2px) rotate(45deg)}
+.burger[aria-expanded="true"] span:last-child{transform:translateY(-3.2px) rotate(-45deg)}
+
+/* ===================== HERO ===================== */
+.hero{
+  position:relative;height:100svh;overflow:hidden;
+  padding:clamp(96px,13vh,150px) var(--pad) 24px;
+  display:flex;flex-direction:column;
+  background:linear-gradient(180deg,var(--bg-hero) 0%,#f2f2f0 45%,#fafaf9 100%);
+}
+/* Scenen har bildens exakta proportioner (2048x953) så att TV-overlayen
+   kan positioneras i procent och alltid hamnar rätt. cqw = 1 % av scenbredden. */
+.hero-scene{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;aspect-ratio:2048/953;
+  container-type:inline-size;
+  z-index:0;pointer-events:none;
+}
+.hero-bg{width:100%;height:100%;object-fit:cover;object-position:center bottom}
+
+/* ---- TV-ruta ---- */
+/* Skärmen i bilden är ingen rektangel utan en trapets — kameran står till
+   vänster om TV:n, så vänsterkanten är närmare och 9 px högre än högerkanten.
+   Uppmätta hörn i originalbilden (2048x953):
+     TL 989,407   TR 1086,419   BR 1086,483   BL 989,480
+   Transformen nedan projicerar elementet exakt på den fyrhörningen. */
+.tv{
+  position:absolute;left:48.30%;top:43.38%;width:5.019%;height:7.156%;
+  overflow:hidden;border-radius:.28cqw;
+  transform-origin:50% 134%;
+  transform:perspective(13.107cqw) rotateY(20deg);
+  background:radial-gradient(120% 130% at 50% 45%,#fffdf7 0%,#fff6e6 55%,#ffe4c4 100%);
+  animation:tv-flicker 4.7s steps(1,end) infinite;
+}
+
+/* rullande kod */
+.tv-code{position:absolute;inset:0;overflow:hidden;mix-blend-mode:multiply;opacity:.62}
+.tv-code pre{
+  margin:0;padding:0 .12cqw;
+  font-family:var(--mono);font-size:.3cqw;line-height:.44cqw;
+  color:#7a2f00;white-space:pre;
+  animation:tv-scroll 13s linear infinite;
+}
+
+/* scanlines */
+.tv-scan{
+  position:absolute;inset:-50%;
+  background:repeating-linear-gradient(to bottom,
+    rgba(90,40,0,.20) 0 .05cqw, rgba(255,255,255,0) .05cqw .13cqw);
+  animation:tv-drift 2.6s linear infinite;
+}
+
+/* brus / knaster */
+.tv-noise{
+  position:absolute;inset:0;opacity:.4;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:1.6cqw 1.6cqw;
+  animation:tv-static .38s steps(6,end) infinite;
+}
+
+/* rullande ljusband */
+.tv-roll{
+  position:absolute;left:0;right:0;height:36%;
+  background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));
+  animation:tv-rollband 6.5s linear infinite;
+}
+
+/* glöd runt röret */
+.tv-glow{
+  position:absolute;left:44.4%;top:37.6%;width:12.6%;height:18.5%;
+  border-radius:50%;mix-blend-mode:screen;pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(255,190,120,.55),rgba(255,150,60,0) 70%);
+  animation:tv-bloom 4.7s ease-in-out infinite;
+}
+
+@keyframes tv-scroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes tv-drift{from{transform:translateY(0)}to{transform:translateY(.13cqw)}}
+@keyframes tv-static{
+  0%{background-position:0 0}      20%{background-position:.7cqw .3cqw}
+  40%{background-position:-.4cqw .8cqw} 60%{background-position:.9cqw -.5cqw}
+  80%{background-position:-.8cqw -.2cqw} 100%{background-position:.2cqw .6cqw}
+}
+@keyframes tv-rollband{
+  0%{top:-40%}  70%{top:110%}  100%{top:110%}
+}
+@keyframes tv-flicker{
+  0%,100%{filter:brightness(1)}
+  6%{filter:brightness(1.14)}   7%{filter:brightness(.9)}
+  8%{filter:brightness(1.06)}
+  38%{filter:brightness(1)}     39%{filter:brightness(.82)}
+  40%{filter:brightness(1.1)}   41%{filter:brightness(1)}
+  72%{filter:brightness(1.05)}  73%{filter:brightness(.93)}
+  74%{filter:brightness(1)}
+}
+@keyframes tv-bloom{
+  0%,100%{opacity:.85;transform:scale(1)}
+  38%{opacity:.62;transform:scale(.96)}
+  40%{opacity:1;transform:scale(1.05)}
+  72%{opacity:.9;transform:scale(1.01)}
+}
+
+.hero-copy{position:relative;z-index:2}
+.hero-title{
+  font-size:clamp(2.2rem,7.2vw,6.2rem);
+  letter-spacing:-.045em;
+}
+.lede{margin-top:22px;font-size:clamp(13.5px,1.05vw,16px);line-height:1.45}
+
+/* Ort och adress längst ner i heron — små men nödvändiga signaler för att
+   kunna hittas lokalt, och de finns på varje sida. */
+/* raden ligger över den mörka nederkanten av fotot, därför ljus text */
+.hero-meta{
+  position:relative;z-index:2;margin-top:auto;
+  display:flex;flex-wrap:wrap;gap:6px 16px;
+  font-family:var(--mono);font-size:11.5px;
+  color:rgba(255,255,255,.72);text-shadow:0 1px 12px rgba(0,0,0,.5);
+}
+.hero-meta a{border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:1px;transition:.25s}
+.hero-meta a:hover{color:#fff;border-color:#fff}
+
+.btn-dark{
+  margin-top:30px;display:inline-flex;align-items:center;gap:12px;
+  padding:6px 26px 6px 6px;border-radius:99px;font-size:15px;
+  background:var(--ink);color:#fff;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.btn-dark:hover{transform:translateY(-2px)}
+.btn-icon{width:40px;height:40px;border-radius:11px;background:#fff;display:grid;place-items:center;flex:0 0 auto}
+.btn-icon svg{width:16px;height:16px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===================== KORTET =====================
+   Det som tidigare var en modal är nu sidans innehåll: varje undersida
+   levererar heron som bakgrund och sitt eget kort ovanpå. Krysset och
+   ytan runtomkring är länkar, så bakåtknappen fungerar av sig själv. */
+/* minmax(0,1fr) hindrar spåret från att växa till kortets max-innehållsbredd,
+   annars sticker kortet ut utanför skärmen på små bredder */
+.modal{
+  position:fixed;inset:0;z-index:200;padding:20px;
+  display:grid;grid-template-columns:minmax(0,1fr);align-items:center;justify-items:center;
+}
+
+.modal-scrim{
+  position:absolute;inset:0;
+  background:rgba(24,22,18,.5);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  opacity:0;transition:opacity .35s ease;
+}
+.modal-card{
+  position:relative;width:min(480px,100%);max-height:calc(100svh - 40px);overflow-y:auto;
+  padding:clamp(26px,4vw,38px);
+  border-radius:28px;
+  /* samma frostade yta som nav-pillen, så modalen känns som en del av designen */
+  background:rgba(255,255,255,.75);
+  -webkit-backdrop-filter:blur(28px) saturate(1.5);backdrop-filter:blur(28px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.65);
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.55);
+}
+/* sidan levereras med kortet på plats — animationen är bara en mjuk entré */
+.modal--page .modal-scrim{opacity:1}
+.modal--page .modal-card{animation:card-in .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes card-in{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+
+.modal-x{
+  position:absolute;top:16px;right:16px;width:32px;height:32px;
+  display:grid;place-items:center;cursor:pointer;
+  border:1px solid rgba(31,31,31,.12);border-radius:99px;background:rgba(255,255,255,.5);
+  transition:.25s;
+}
+.modal-x:hover{background:var(--ink);border-color:var(--ink)}
+.modal-x svg{width:14px;height:14px;fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round}
+.modal-x:hover svg{stroke:#fff}
+
+.modal-eyebrow{
+  display:block;font-family:var(--mono);font-size:12px;
+  color:var(--dim);margin-bottom:14px;
+}
+/* kortets rubrik är sidans h1 på undersidorna, h2 i tackrutan */
+.modal-card h1,.modal-card h2{margin:0;font-size:clamp(1.5rem,3.4vw,2rem);font-weight:500;letter-spacing:-.04em;line-height:1.05}
+.modal-lede{margin-top:10px;font-size:14.5px;color:var(--dim-2);line-height:1.5}
+
+/* ---- case ---- */
+/* Casen behöver två kort i bredd för att kunna jämföras, därför en bredare kortyta. */
+.modal-card--wide{width:min(920px,100%)}
+
+.case-grid{
+  margin:26px 0 4px;padding:0;list-style:none;
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+}
+.case-card{
+  width:100%;height:100%;display:flex;flex-direction:column;align-items:flex-start;
+  padding:14px 14px 16px;border-radius:20px;text-align:left;cursor:pointer;
+  font:inherit;color:var(--ink);
+  background:rgba(255,255,255,.5);
+  border:1px solid rgba(31,31,31,.12);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .25s,background .25s;
+}
+.case-card:hover{transform:translateY(-3px);border-color:rgba(31,31,31,.3);background:rgba(255,255,255,.78)}
+.case-card:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+.case-thumb{
+  position:relative;width:100%;aspect-ratio:16/9;margin-bottom:14px;
+  border-radius:13px;overflow:hidden;display:block;
+}
+/* ritade motiv i stället för foton — inga externa filer, inga licenser,
+   och samma tunna streck som resten av sidan */
+.case-thumb svg{
+  width:100%;height:100%;display:block;
+  fill:none;stroke:rgba(255,255,255,.8);
+  stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;
+}
+.case-num{
+  position:absolute;left:12px;bottom:8px;
+  font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.6);
+}
+/* platshållarbakgrunder: byts enklast mot <img> i samma ruta när riktiga foton finns */
+.case-thumb--1{background:linear-gradient(135deg,#2b2a28,#575049)}
+.case-thumb--2{background:linear-gradient(135deg,#4a3524,#997049)} /* trä */
+.case-thumb--3{background:linear-gradient(135deg,#243b45,#4d7a80)} /* klinik */
+.case-thumb--4{background:linear-gradient(135deg,#33324a,#6b6a8c)}
+
+.case-tag{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.case-title{margin-top:6px;font-size:15px;font-weight:500;letter-spacing:-.02em;line-height:1.3}
+.case-preview{margin-top:7px;font-size:13px;color:var(--dim-2);line-height:1.5}
+.case-more{
+  margin-top:12px;display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:11.5px;color:var(--dim-2);
+}
+.case-more svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.case-card:hover .case-more{color:var(--ink)}
+.case-card:hover .case-more svg{transform:translateX(3px)}
+
+.case-back{
+  display:inline-flex;align-items:center;gap:7px;margin-bottom:18px;
+  padding:7px 14px 7px 11px;border-radius:99px;cursor:pointer;
+  font-family:var(--mono);font-size:11.5px;color:var(--dim-2);
+  background:rgba(255,255,255,.5);border:1px solid rgba(31,31,31,.14);transition:.25s;
+}
+.case-back:hover{color:var(--ink);border-color:var(--ink)}
+.case-back svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.case-body{margin-top:24px;display:flex;flex-direction:column}
+.case-body section{padding:16px 0;border-top:1px solid rgba(31,31,31,.13)}
+.case-body section:last-child{border-bottom:1px solid rgba(31,31,31,.13)}
+.case-body h2{margin:0;font-family:var(--mono);font-size:11.5px;font-weight:400;color:var(--dim);letter-spacing:0}
+.case-body p{margin-top:8px;font-size:13.5px;color:var(--dim-2);line-height:1.6}
+
+.case-stats{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.case-stats li{
+  flex:1 1 150px;padding:12px 14px;border-radius:14px;
+  background:rgba(255,255,255,.55);border:1px solid rgba(31,31,31,.1);
+}
+.case-stats strong{display:block;font-size:16px;font-weight:500;letter-spacing:-.02em}
+.case-stats span{display:block;margin-top:3px;font-family:var(--mono);font-size:11px;color:var(--dim)}
+
+/* tjänstelista — ingen numrering, det är fyra sidoställda val och ingen ordning */
+.svc{margin:26px 0 4px;padding:0;list-style:none;display:flex;flex-direction:column}
+.svc li{padding:15px 0;border-top:1px solid rgba(31,31,31,.13)}
+.svc li:last-child{border-bottom:1px solid rgba(31,31,31,.13)}
+.svc h2{margin:0;font-size:15px;font-weight:500;letter-spacing:-.02em;line-height:1.3}
+.svc p{margin-top:5px;font-size:13.5px;color:var(--dim-2);line-height:1.5}
+
+/* teamlista */
+.team{margin:26px 0 4px;padding:0;list-style:none;display:flex;flex-direction:column}
+.team li{
+  padding:18px 0;border-top:1px solid rgba(31,31,31,.13);
+  display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
+}
+.team li:last-child{border-bottom:1px solid rgba(31,31,31,.13)}
+.team img{width:96px;height:96px;border-radius:50%;object-fit:cover;flex:0 0 auto}
+.team h2{
+  margin:0;font-size:15px;font-weight:500;letter-spacing:-.02em;line-height:1.3;
+  display:flex;align-items:center;gap:7px;
+}
+.team-flag{font-size:12px;line-height:1}
+.team-role{display:block;margin-top:2px;font-family:var(--mono);font-size:11.5px;color:var(--dim)}
+.team p{margin-top:8px;font-size:13.5px;color:var(--dim-2);line-height:1.5}
+
+#buildForm{margin-top:26px;display:flex;flex-direction:column;gap:14px}
+#buildForm label{display:flex;flex-direction:column;gap:7px}
+#buildForm label span{font-size:12.5px;color:var(--dim-2)}
+#buildForm input,#buildForm textarea{
+  font:inherit;font-size:15px;color:var(--ink);
+  padding:12px 14px;border-radius:14px;resize:vertical;
+  background:rgba(255,255,255,.7);
+  border:1px solid rgba(31,31,31,.14);
+  transition:border-color .2s,background .2s;
+}
+#buildForm input::placeholder,#buildForm textarea::placeholder{color:rgba(26,26,26,.32)}
+#buildForm input:focus,#buildForm textarea:focus{
+  outline:none;border-color:var(--ink);background:rgba(255,255,255,.92);
+}
+#buildForm .invalid{border-color:#c0392b}
+/* skräpfällan ska vara omöjlig att träffa för en människa men finnas i DOM:en */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
+
+/* ämnesval — sänker tröskeln att börja och kvalificerar förfrågan */
+.topics{display:flex;flex-direction:column;gap:8px}
+.topic-label{font-size:12.5px;color:var(--dim-2)}
+.topic-row{display:flex;flex-wrap:wrap;gap:7px}
+.topics label{cursor:pointer}
+.topics input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+/* bara valen i raden ska se ut som knappar — inte etiketten ovanför dem */
+.topic-row span{
+  display:inline-block;padding:8px 14px;border-radius:99px;font-size:13px;
+  color:var(--dim-2);background:rgba(255,255,255,.55);
+  border:1px solid rgba(31,31,31,.16);transition:.2s;
+}
+.topic-row label:hover span{border-color:var(--ink);color:var(--ink)}
+.topic-row input:checked + span{background:var(--ink);border-color:var(--ink);color:#fff}
+.topic-row input:focus-visible + span{outline:2px solid var(--ink);outline-offset:2px}
+
+.form-error{font-size:13px;color:#c0392b}
+/* knappen längst ner i kortet — som länk på innehållssidorna, som submit i formuläret */
+.modal-submit{margin-top:22px;width:100%;justify-content:center;border:0;cursor:pointer;font:inherit;font-size:15px}
+#buildForm .modal-submit{margin-top:6px}
+.modal-submit:disabled{opacity:.55;cursor:default;transform:none}
+
+.modal-done{text-align:center;padding:16px 0 6px}
+.done-mark{
+  width:52px;height:52px;margin:0 auto 20px;border-radius:99px;
+  display:grid;place-items:center;background:var(--ink);
+}
+.done-mark svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.modal-done .btn-outline{
+  display:inline-block;margin-top:24px;padding:12px 26px;border-radius:99px;
+  font-size:14px;cursor:pointer;font-family:inherit;
+  background:none;border:1px solid rgba(31,31,31,.2);color:var(--ink);transition:.25s;
+}
+.modal-done .btn-outline:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* knappen i heron är nu ett <button> — nolla webbläsarens standardstil */
+button.btn-dark{border:0;cursor:pointer;font-family:inherit;font-size:15px}
+
+/* ===================== RESPONSIVT ===================== */
+@media (max-width:860px){
+  /* som utfälld panel ligger menyn ÖVER rubriken och behöver därför en yta */
+  .nav-pill{
+    position:absolute;top:56px;left:0;right:0;flex-direction:column;align-items:stretch;
+    padding:12px;border-radius:22px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:.3s;
+    background:rgba(255,255,255,.82);
+    -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.7);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.45);
+  }
+  .nav-pill.open{opacity:1;pointer-events:auto;transform:none}
+  .nav-pill a{padding:12px 14px;font-size:16px}
+  .burger{display:flex}
+  /* menyraden är för trång för en uppmaning när burgaren tar plats */
+  .sound-hint{display:none}
+  .logo img{height:17px}
+  .prompt{width:8px;height:14px;margin-left:6px}
+  .caret{width:6px;height:16px}
+  /* zooma scenen i stället för att beskära den, så TV-overlayen följer med */
+  .hero-scene{width:170%}
+  /* ge kortet luft under menyn så krysset inte hamnar under burgaren */
+  .modal{padding-top:66px}
+  .modal-card{max-height:calc(100svh - 86px)}
+}
+@media (max-width:700px){
+  /* två kort i bredd blir för trångt för att gå att läsa */
+  .case-grid{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .hero-scene{width:280%}
+  /* full storlek trängs med texten i den smala kolumnen */
+  .team img{width:72px;height:72px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}

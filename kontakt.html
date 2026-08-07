@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontakt — beskriv vad du vill bygga | mattiasp.se</title>
+<meta name="description" content="Berätta kort om idén så hör vi av oss inom ett dygn. IT-lösningar för företag och privatpersoner i Helsingborg och resten av Sverige.">
+<link rel="canonical" href="https://mattiasp.se/kontakt.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="mattiasp.se">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:title" content="Kontakt — beskriv vad du vill bygga">
+<meta property="og:description" content="Berätta kort om idén så hör vi av oss inom ett dygn.">
+<meta property="og:url" content="https://mattiasp.se/kontakt.html">
+<meta property="og:image" content="https://mattiasp.se/assets/hero.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "url": "https://mattiasp.se/kontakt.html",
+  "mainEntity": {
+    "@type": "ProfessionalService",
+    "name": "mattiasp.se",
+    "url": "https://mattiasp.se/",
+    "email": "info@mattiasp.se",
+    "address": { "@type": "PostalAddress", "addressLocality": "Helsingborg", "addressCountry": "SE" },
+    "areaServed": [
+      { "@type": "City", "name": "Helsingborg" },
+      { "@type": "Country", "name": "Sverige" }
+    ]
+  }
+}
+</script>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <a href="index.html" class="logo" aria-label="mattiasp.se">
+    <img src="assets/logo.png" alt="mattiasp.se" width="1037" height="180">
+    <svg class="prompt" viewBox="0 0 12 20" aria-hidden="true"><path d="M2 3l7 7-7 7"/></svg>
+    <span class="caret" aria-hidden="true"></span>
+  </a>
+
+  <nav class="nav-pill" id="navPill" aria-label="Huvudmeny">
+    <a href="case.html">Case</a>
+    <a href="tjanster.html">Tjänster</a>
+    <a href="teamet.html">Teamet</a>
+    <a href="kontakt.html" aria-current="page">Kontakt</a>
+  </nav>
+
+  <div class="nav-right">
+    <span class="sound-hint" aria-hidden="true">Moodboost? Klicka här!</span>
+    <button class="sound" id="audioToggle" type="button" aria-pressed="false" aria-label="Slå på bakgrundsljud">
+      <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+    <button class="burger" id="burger" aria-label="Meny" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- ================= HERO (bakgrund) ================= -->
+<div class="hero" id="top">
+  <div class="hero-scene" aria-hidden="true">
+    <img class="hero-bg" src="assets/hero.png" alt="" width="2048" height="953" fetchpriority="high">
+    <div class="tv">
+      <div class="tv-code"><pre id="tvCode"></pre></div>
+      <div class="tv-scan"></div>
+      <div class="tv-noise"></div>
+      <div class="tv-roll"></div>
+    </div>
+    <div class="tv-glow"></div>
+  </div>
+
+  <div class="hero-copy" aria-hidden="true">
+    <p class="hero-title"><span class="dim">Beskriv problemet.</span><br>Vi fixar lösningen.</p>
+    <p class="lede">IT-lösningar för företag och privatpersoner. Byggda med AI, granskade av en människa.</p>
+  </div>
+
+  <p class="hero-meta">
+    <span>IT-lösningar från Helsingborg</span>
+    <a href="mailto:info@mattiasp.se">info@mattiasp.se</a>
+  </p>
+</div>
+
+<!-- ================= SIDAN ================= -->
+<main class="modal modal--page">
+  <a class="modal-scrim" href="index.html" aria-label="Tillbaka till startsidan"></a>
+
+  <article class="modal-card">
+    <a class="modal-x" href="index.html" aria-label="Stäng">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </a>
+
+    <div class="modal-body">
+      <span class="modal-eyebrow">// Nytt bygge</span>
+      <h1>Vad vill du bygga?</h1>
+      <p class="modal-lede">Berätta kort om idén så hör vi av oss inom ett dygn. Vi sitter i Helsingborg och jobbar i hela Sverige.</p>
+
+      <!-- Formspree tar emot inskicket och vidarebefordrar till info@mattiasp.se.
+           Byts adressen görs det i Formspree-dashboarden, inte här. -->
+      <form id="buildForm" action="https://formspree.io/f/mnpannwn" method="POST" novalidate>
+        <label>
+          <span>Namn</span>
+          <input type="text" name="namn" required autocomplete="name" placeholder="Anna Andersson">
+        </label>
+        <!-- fältet måste heta email för att svar ska gå till avsändaren -->
+        <label>
+          <span>E-post</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="anna@företaget.se">
+        </label>
+        <div class="topics" role="radiogroup" aria-labelledby="topicLabel">
+          <span id="topicLabel" class="topic-label">Vad gäller det?</span>
+          <div class="topic-row">
+            <label><input type="radio" name="amne" value="Hemsida"><span>Hemsida</span></label>
+            <label><input type="radio" name="amne" value="Internt system"><span>Internt system</span></label>
+            <label><input type="radio" name="amne" value="Automation och AI"><span>Automation och AI</span></label>
+            <label><input type="radio" name="amne" value="Hemautomation"><span>Hemautomation</span></label>
+            <label><input type="radio" name="amne" value="Vet inte än"><span>Vet inte än</span></label>
+          </div>
+        </div>
+
+        <label>
+          <span>Beskriv problemet</span>
+          <textarea name="beskrivning" rows="4" required placeholder="Vi lägger ~15 timmar i veckan på att skriva offerter för hand …"></textarea>
+        </label>
+
+        <!-- Skräpfälla: osynlig för människor, ofta ifylld av robotar.
+             Formspree kastar inskicket om _gotcha innehåller något. -->
+        <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_subject" value="Ny förfrågan från mattiasp.se">
+
+        <p class="form-error" id="formError" hidden></p>
+
+        <button type="submit" class="btn-dark modal-submit">
+          <span class="btn-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l6 7-6 7M13 5l6 7-6 7"/></svg></span>
+          <span data-label>Skicka</span>
+        </button>
+      </form>
+    </div>
+
+    <div class="modal-done" hidden>
+      <span class="done-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 12l6 6L20 6"/></svg>
+      </span>
+      <h2>Tack — det är mottaget.</h2>
+      <p class="modal-lede">Vi läser igenom och återkommer inom ett dygn.</p>
+      <a class="btn-outline" href="index.html">Stäng</a>
+    </div>
+  </article>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+# Repot är publikt — allt som inte hör till den publicerade sidan hålls utanför.
+
+# Claude Code: lokala behörigheter och sessionsdata
+.claude/
+
+# OneDrive och Windows lägger filer i mappen utan att fråga
+desktop.ini
+Thumbs.db
+*.lnk
+~$*
+
+# macOS, om sidan någon gång redigeras därifrån
+.DS_Store
+
+# Editorinställningar är personliga, inte en del av sidan
+.vscode/
+.idea/
+
+# Original och arbetsfiler för bilder — bara det optimerade ska publiceras
+*.psd
+*.ai
+*.xcf
+assets/**/original/
+
+# Utkast och anteckningar som råkar hamna i projektmappen
+*.bak
+*.tmp
+*.log
+UTKAST*
+utkast*
+
+# Om ett byggsteg eller verktyg någonsin läggs till
+node_modules/
+.env
+.env.*
