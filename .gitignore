@@ -3,6 +3,9 @@
 # Claude Code: lokala behörigheter och sessionsdata
 .claude/
 
+# Wrangler: lokal cache och temporära filer från deployen
+.wrangler/
+
 # OneDrive och Windows lägger filer i mappen utan att fråga
 desktop.ini
 Thumbs.db

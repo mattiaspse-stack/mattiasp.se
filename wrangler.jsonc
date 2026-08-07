@@ -1,0 +1,15 @@
+{
+  // Bara innehållet i public/ publiceras. Wrangler laddar annars upp HELA
+  // katalogen — inklusive .git — och då ligger repots historik öppet på nätet.
+  // Vitlista i stället för svartlista: nya filer i roten kan inte läcka av misstag.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mattiasp-se-egen",
+  "compatibility_date": "2026-08-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./public"
+  }
+}
