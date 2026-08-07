@@ -266,6 +266,17 @@ body:has(.modal--page) .sound-hint{color:rgba(255,255,255,.62)}
   border:1px solid rgba(255,255,255,.65);
   box-shadow:0 40px 90px -40px rgba(0,0,0,.55);
 }
+/* På innehållssidorna ligger heron under scrimens blur(3px) och kortets
+   blur(28px). TV-animationerna syns alltså inte — men de ändrar pixlar bakom
+   två backdrop-filter varje bildruta, vilket tvingar fram en ny oskärpe-
+   beräkning över hela ytan. Det är det som gör att kortet hackar. Släck dem. */
+body:has(.modal--page) .tv,
+body:has(.modal--page) .tv-code pre,
+body:has(.modal--page) .tv-scan,
+body:has(.modal--page) .tv-noise,
+body:has(.modal--page) .tv-roll,
+body:has(.modal--page) .tv-glow{animation:none}
+
 /* sidan levereras med kortet på plats — animationen är bara en mjuk entré */
 .modal--page .modal-scrim{opacity:1}
 .modal--page .modal-card{animation:card-in .4s cubic-bezier(.2,.8,.2,1) both}
