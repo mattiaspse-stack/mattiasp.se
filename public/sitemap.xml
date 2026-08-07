@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Case-sidorna är medvetet utelämnade tills de innehåller riktiga uppdrag.
+     De har även noindex så länge. Lägg tillbaka dem när innehållet är skarpt. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://mattiasp.se/</loc><priority>1.0</priority></url>
   <url><loc>https://mattiasp.se/tjanster</loc><priority>0.9</priority></url>
-  <url><loc>https://mattiasp.se/case</loc><priority>0.8</priority></url>
-  <url><loc>https://mattiasp.se/case-offerter</loc><priority>0.6</priority></url>
-  <url><loc>https://mattiasp.se/case-snickeri</loc><priority>0.6</priority></url>
-  <url><loc>https://mattiasp.se/case-bokning</loc><priority>0.6</priority></url>
-  <url><loc>https://mattiasp.se/case-sensorer</loc><priority>0.6</priority></url>
-  <url><loc>https://mattiasp.se/teamet</loc><priority>0.5</priority></url>
   <url><loc>https://mattiasp.se/kontakt</loc><priority>0.7</priority></url>
+  <url><loc>https://mattiasp.se/teamet</loc><priority>0.5</priority></url>
 </urlset>

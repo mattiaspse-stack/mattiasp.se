@@ -61,8 +61,10 @@ img{display:block;max-width:100%}
    och överst på sidan ligger bara en platt yta. All kontrast samlas
    i stället i den svarta knappen till höger. */
 .nav-pill{display:flex;align-items:center;gap:2px}
-.nav-pill a{font-size:14px;color:var(--dim-2);padding:8px 14px;border-radius:99px;transition:color .25s}
+.nav-pill a,.nav-pill .nav-off{font-size:14px;color:var(--dim-2);padding:8px 14px;border-radius:99px;transition:color .25s}
 .nav-pill a:hover,.nav-pill a[aria-current="page"]{color:var(--ink)}
+/* Case syns men går inte att klicka förrän det finns riktiga uppdrag att visa */
+.nav-pill .nav-off{color:var(--dim);cursor:default}
 
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 
@@ -76,6 +78,7 @@ body:has(.modal--page) .burger span{background:#fff}
 body:has(.modal--page) .sound-bars i{background:#fff}
 @media (min-width:861px){
   body:has(.modal--page) .nav-pill a{color:rgba(255,255,255,.7)}
+  body:has(.modal--page) .nav-pill .nav-off{color:rgba(255,255,255,.4)}
   body:has(.modal--page) .nav-pill a:hover,
   body:has(.modal--page) .nav-pill a[aria-current="page"]{color:#fff}
 }
@@ -451,7 +454,7 @@ button.btn-dark{border:0;cursor:pointer;font-family:inherit;font-size:15px}
     box-shadow:0 18px 40px -22px rgba(0,0,0,.45);
   }
   .nav-pill.open{opacity:1;pointer-events:auto;transform:none}
-  .nav-pill a{padding:12px 14px;font-size:16px}
+  .nav-pill a,.nav-pill .nav-off{padding:12px 14px;font-size:16px}
   .burger{display:flex}
   /* menyraden är för trång för en uppmaning när burgaren tar plats */
   .sound-hint{display:none}
