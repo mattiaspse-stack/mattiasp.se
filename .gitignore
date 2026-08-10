@@ -31,6 +31,7 @@ assets/**/original/
 *.log
 UTKAST*
 utkast*
+Todo.txt
 
 # Om ett byggsteg eller verktyg någonsin läggs till
 node_modules/
